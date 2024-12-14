@@ -1,21 +1,22 @@
-name: Hello, World!
-description: Greet someone and record the time
+name: replace-github-pr-number-to-link
+description: Generate a markdown link for a GitHub PR
 author: GitHub Actions
 
-# Define your inputs here.
 inputs:
-  who-to-greet:
-    description: Who to greet
+  pr-number:
+    description: The PR number to generate the link for
     required: true
-    default: World
 
-# Define your outputs here.
 outputs:
-  time:
-    description: The time we greeted you
+  pr_link:
+    description: The markdown link for the PR
 
 runs:
   using: docker
   image: Dockerfile
   env:
-    INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    GITHUB_SERVER_URL: ${{ github.server_url }}
+    GITHUB_REPOSITORY: ${{ github.repository }}
+    INPUT_PR_NUMBER: ${{ inputs.pr-number }}
+

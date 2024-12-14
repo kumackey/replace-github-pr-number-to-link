@@ -1,11 +1,14 @@
-# Set the base image to use for subsequent instructions
-FROM alpine:3.21
+# Use the official Golang image as the base image
+FROM golang:1.23-alpine
 
 # Set the working directory inside the container
-WORKDIR /usr/src
+WORKDIR /usr/src/app
 
-# Copy any source file(s) required for the action
-COPY entrypoint.sh .
+# Copy the Go source file(s) into the container
+COPY main.go .
 
-# Configure the container to be run as an executable
-ENTRYPOINT ["/usr/src/entrypoint.sh"]
+# Build the Go application
+RUN go build -o /usr/local/bin/app main.go
+
+# Configure the container to run the Go application
+ENTRYPOINT ["/usr/local/bin/app"]
